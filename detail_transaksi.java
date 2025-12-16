@@ -6,4 +6,4 @@ public class detail_transaksi {
     private float total;
     private Product product;
     private Kasir kasir;
-}
+};
