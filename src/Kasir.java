@@ -1,3 +1,4 @@
+
 public class Kasir extends User {
 
     private String kasirCode;

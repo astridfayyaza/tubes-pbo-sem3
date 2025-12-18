@@ -1,3 +1,9 @@
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 public class Product implements CRUD {
     private int id_product;
     private RiwayatStok riwayatStok;
@@ -119,15 +125,36 @@ public class Product implements CRUD {
     }
 
     public static void tampilProduk() {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM `produk`";
+
+        try (Connection c = Koneksi.getConnection();
+                Statement st = c.createStatement();
+                ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Product p = new Product(
+                        rs.getInt("produk_id"),
+                        rs.getString("nama"),
+                        rs.getString("ukuran"),
+                        rs.getString("warna"),
+                        rs.getDouble("harga"),
+                        rs.getInt("stok"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            System.out.println("Eksepsi: " + e.getMessage());
+        }
+
         System.out.println("=== DAFTAR PRODUK ===");
         System.out.println("ID\tNama\tUkuran\tWarna\tHarga\tStok");
 
-        if (Main.daftarProduct.isEmpty()) {
+        if (list.isEmpty()) {
             System.out.println("Belum ada produk.");
             return;
         }
 
-        for (Product p : Main.daftarProduct) {
+        for (Product p : list) {
             System.out.println(
                     p.getId_product() + "\t" +
                             p.getNama() + "\t" +

@@ -3,7 +3,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Transaksi{
+public class Transaksi {
     private int transaksi_id;
     private LocalDate tanggal;
     private LocalTime waktu;
@@ -43,8 +43,7 @@ public class Transaksi{
 
     public void tambahItem() {
         DetailTransaksi dt = new DetailTransaksi(
-            dTransaksi.size() + 1, null, kasir, 0
-        );
+                dTransaksi.size() + 1, null, kasir, 0);
         dt.inputBarang();
         dTransaksi.add(dt);
     }

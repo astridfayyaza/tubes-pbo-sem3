@@ -1,3 +1,4 @@
+
 public abstract class User {
 
     protected int user_id;
@@ -5,11 +6,14 @@ public abstract class User {
     protected String username;
     protected String password;
 
-    public enum Role { ADMIN, KASIR }
+    public enum Role {
+        ADMIN, KASIR
+    }
+
     protected Role role;
 
     public User(int user_id, String nama, String username,
-                String password, Role role) {
+            String password, Role role) {
         this.user_id = user_id;
         this.nama = nama;
         this.username = username;
@@ -20,7 +24,7 @@ public abstract class User {
     // PENGECEKAN USERNAME & PASSWORD (WAJIB)
     public boolean login(String inputUsername, String inputPassword) {
         return this.username.equals(inputUsername)
-            && this.password.equals(inputPassword);
+                && this.password.equals(inputPassword);
     }
 
     public String getNama() {

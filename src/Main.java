@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -35,7 +36,7 @@ public class Main {
                     break;
             }
         } while (pilihan != 2);
-        
+
     }
 
     public static void menuUtama(User user) {

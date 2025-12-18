@@ -1,9 +1,10 @@
+
 import java.time.LocalDate;
 
 public class RiwayatStok {
     private int riwayatStokId; // PK
-    private int produkId;      // FK
-    private Product product;   
+    private int produkId; // FK
+    private Product product;
     private int jumlah;
     private String tipePerubahan;
     private LocalDate tglPerubahan;
@@ -28,5 +29,5 @@ public class RiwayatStok {
         System.out.println("Jumlah Perubahan : " + jumlah);
         System.out.println("Tipe Perubahan   : " + tipePerubahan);
         System.out.println("Tanggal          : " + tglPerubahan);
-    }  
+    }
 }
