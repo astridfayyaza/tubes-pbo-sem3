@@ -2,18 +2,17 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Transaksi {
+public class Transaksi extends DetailTransaksi{
     private int transaksi_id;
     private LocalDate tanggal;
     private LocalTime waktu;
-    private float totalHarga;
-    private detail_transaksi dTransaksi;
+    private DetailTransaksi dTransaksi;
 
-    public Transaksi(int transaksi_id, LocalDate tanggal, LocalTime waktu, float totalHarga) {
+    public Transaksi(int detailId, Product product, Kasir kasir, int jumlah, int transaksi_id) {
+        super(detailId, product, kasir, jumlah);
         this.transaksi_id = transaksi_id;
-        this.tanggal = tanggal;
-        this.waktu = waktu;
-        this.totalHarga = totalHarga;
+        this.tanggal = LocalDate.now();
+        this.waktu = LocalTime.now();
     }
 
     public int getTransaksi_id() {
@@ -40,15 +39,7 @@ public class Transaksi {
         this.waktu = waktu;
     }
 
-    public float getTotalHarga() {
-        return totalHarga;
-    }
-
-    public void setTotalHarga(float totalHarga) {
-        this.totalHarga = totalHarga;
-    }
-
     public void cariTransaksi() {
-        
+
     }
 }

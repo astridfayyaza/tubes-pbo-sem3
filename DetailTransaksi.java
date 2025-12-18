@@ -1,6 +1,5 @@
 public class DetailTransaksi {
     private int detailId;
-    private int transaksiId;
     private int produkId;
     private int userId;
     
@@ -13,9 +12,8 @@ public class DetailTransaksi {
     private Product product; 
     private Kasir kasir;
 
-    public DetailTransaksi(int detailId, int transaksiId, Product product, Kasir kasir, int jumlah) {
+    public DetailTransaksi(int detailId, Product product, Kasir kasir, int jumlah) {
         this.detailId = detailId;
-        this.transaksiId = transaksiId;
         this.product = product;
         this.kasir = kasir;
         this.jumlah = jumlah;
