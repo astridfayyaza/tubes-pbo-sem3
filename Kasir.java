@@ -25,4 +25,9 @@ public class Kasir extends User {
             return false;
         }
     }
+
+    public int getKasirCode() {
+        System.out.println("Kode Kasir: " + kasirCode);
+        return user_id;
+    } 
 }

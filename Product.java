@@ -1,7 +1,7 @@
 public class Product implements CRUD {
     private int id_product;
-    private riwayat_stok riwayatStok;
-    private detail_transaksi dTransaksi;
+    private RiwayatStok riwayatStok;
+    private DetailTransaksi dTransaksi;
     private String nama;
     private String ukuran;
     private String warna;
