@@ -1,14 +1,14 @@
 public class Kasir extends User {
 
-    private String kasirCode;
+    private int kasirCode;
 
     public Kasir(int user_id, String nama, String username,
-                 String password, String kasirCode) {
+                 String password, int kasirCode) {
         super(user_id, nama, username, password, Role.KASIR);
         this.kasirCode = kasirCode;
     }
 
-    public String getKasirCode() {
+    public int getKasirCode() {
         return kasirCode;
     }
 

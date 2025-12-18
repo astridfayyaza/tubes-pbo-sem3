@@ -27,9 +27,9 @@ public class DetailTransaksi {
             this.harga = product.getHarga();
             this.total = this.harga * jumlah;
         }
-        
-        if (kasir != null) {
-            this.userId = kasir.getKasirCode(); 
+
+        if (kasir != null) { 
+            this.userId = kasir.getKasirCode(); // mendapatkan userId dari objek Kasir
         }
     }
 
