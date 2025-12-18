@@ -118,4 +118,25 @@ public class Product implements CRUD {
             System.out.println("Product dengan ID " + id_product + " tidak ditemukan");
         }
     }
+
+    public static void tampilProduk() {
+        System.out.println("=== DAFTAR PRODUK ===");
+        System.out.println("ID\tNama\tUkuran\tWarna\tHarga\tStok");
+
+        if (Main.daftarProduct.isEmpty()) {
+            System.out.println("Belum ada produk.");
+            return;
+        }
+
+        for (Product p : Main.daftarProduct) {
+            System.out.println(
+                    p.getId_product() + "\t" +
+                            p.getNama() + "\t" +
+                            p.getUkuran() + "\t" +
+                            p.getWarna() + "\t" +
+                            p.getHarga() + "\t" +
+                            p.getStok());
+        }
+    }
+
 }

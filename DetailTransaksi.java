@@ -46,4 +46,8 @@ public class DetailTransaksi {
         // logic untuk menambah barang ke file ini
         System.out.println("Barang " + namaBarang + " berhasil diinput.");
     }
+
+    public Kasir getKasir() {
+        return kasir;
+    }
 }
