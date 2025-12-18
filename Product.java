@@ -1,4 +1,4 @@
-public class Product implements CRUD{
+public class Product implements CRUD {
     private int id_product;
     private riwayat_stok riwayatStok;
     private detail_transaksi dTransaksi;
@@ -74,49 +74,48 @@ public class Product implements CRUD{
     @Override
     public void tambah(Product newProduct) {
 
+        Main.daftarProduct.add(newProduct);
         System.out.println("Product berhasil di tambahkan");
     }
 
     @Override
-    public void update(String nama, String ukuran, String warna, float harga, int stok) {
-        if (nama.equals("N/A")) {
-            nama = this.nama;
-        } if (ukuran.equals("N/A")) {
-            ukuran = this.ukuran;
-        } if (warna.equals("N/A")) {
-            warna = this.warna;
-        } if (harga == 0.0) {
-            harga = this.harga;
-        } if (stok == 0) {
-            stok = this.stok;
-        }
-        setId_product(id_product);
-        setNama(nama);
-        setUkuran(ukuran);
-        setWarna(warna);
-        setHarga(harga);
-        setStok(stok);
+    public void update(int id, String nama, String ukuran, String warna, float harga, int stok) {
+        boolean ditemukan = false;
 
-        System.out.println("Product berhasil di ubah");
+        for (Product p : Main.daftarProduct) {
+            if (p.getId_product() == id) {
+                p.setNama(nama);
+                p.setUkuran(ukuran);
+                p.setWarna(warna);
+                p.setHarga(harga);
+                p.setStok(stok);
+
+                ditemukan = true;
+                System.out.println("Product berhasil diupdate");
+                break;
+            }
+        }
+
+        if (!ditemukan) {
+            System.out.println("Product dengan ID " + id + " tidak ditemukan");
+        }
     }
 
     @Override
     public void hapus(int id_product) {
         boolean ditemukan = false;
 
-    for (int i = 0; i < Main.daftarProduct.size(); i++) {
-        if (Main.daftarProduct.get(i).getId_product() == id_product) {
-            Main.daftarProduct.remove(i);
-            ditemukan = true;
-            System.out.println("Product berhasil dihapus");
-            break;
+        for (int i = 0; i < Main.daftarProduct.size(); i++) {
+            if (Main.daftarProduct.get(i).getId_product() == id_product) {
+                Main.daftarProduct.remove(i);
+                ditemukan = true;
+                System.out.println("Product berhasil dihapus");
+                break;
+            }
         }
-    }
 
         if (!ditemukan) {
             System.out.println("Product dengan ID " + id_product + " tidak ditemukan");
         }
     }
-
-    
 }

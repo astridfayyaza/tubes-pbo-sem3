@@ -7,6 +7,7 @@ public class Transaksi {
     private LocalDate tanggal;
     private LocalTime waktu;
     private float totalHarga;
+    private detail_transaksi dTransaksi;
 
     public Transaksi(int transaksi_id, LocalDate tanggal, LocalTime waktu, float totalHarga) {
         this.transaksi_id = transaksi_id;
@@ -47,5 +48,7 @@ public class Transaksi {
         this.totalHarga = totalHarga;
     }
 
-
+    public void cariTransaksi() {
+        
+    }
 }
