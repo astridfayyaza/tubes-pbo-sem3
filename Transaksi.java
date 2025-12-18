@@ -6,13 +6,14 @@ public class Transaksi extends DetailTransaksi{
     private int transaksi_id;
     private LocalDate tanggal;
     private LocalTime waktu;
-    private DetailTransaksi dTransaksi;
+    private float totalHarga;
+    private detail_transaksi dTransaksi;
 
-    public Transaksi(int detailId, Product product, Kasir kasir, int jumlah, int transaksi_id) {
-        super(detailId, product, kasir, jumlah);
+    public Transaksi(int transaksi_id, LocalDate tanggal, LocalTime waktu, float totalHarga) {
         this.transaksi_id = transaksi_id;
-        this.tanggal = LocalDate.now();
-        this.waktu = LocalTime.now();
+        this.tanggal = tanggal;
+        this.waktu = waktu;
+        this.totalHarga = totalHarga;
     }
 
     public int getTransaksi_id() {
@@ -37,6 +38,14 @@ public class Transaksi extends DetailTransaksi{
 
     public void setWaktu(LocalTime waktu) {
         this.waktu = waktu;
+    }
+
+    public float getTotalHarga() {
+        return totalHarga;
+    }
+
+    public void setTotalHarga(float totalHarga) {
+        this.totalHarga = totalHarga;
     }
 
     public void cariTransaksi() {
