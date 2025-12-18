@@ -1,19 +1,20 @@
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Scanner;
+import java.util.ArrayList;
 
-public class Transaksi extends DetailTransaksi{
+public class Transaksi{
     private int transaksi_id;
     private LocalDate tanggal;
     private LocalTime waktu;
-    private DetailTransaksi dTransaksi;
+    private Kasir kasir;
+    private ArrayList<DetailTransaksi> dTransaksi = new ArrayList<>();
 
-    public Transaksi(int detailId, Product product, Kasir kasir, int jumlah, int transaksi_id) {
-        super(detailId, product, kasir, jumlah);
+    public Transaksi(int transaksi_id, Kasir kasir) {
         this.transaksi_id = transaksi_id;
         this.tanggal = LocalDate.now();
         this.waktu = LocalTime.now();
+        this.kasir = kasir;
     }
 
     public int getTransaksi_id() {
@@ -40,54 +41,23 @@ public class Transaksi extends DetailTransaksi{
         this.waktu = waktu;
     }
 
-    public void cariTransaksi() {
-
+    public void tambahItem() {
+        DetailTransaksi dt = new DetailTransaksi(
+            dTransaksi.size() + 1, null, kasir, 0
+        );
+        dt.inputBarang();
+        dTransaksi.add(dt);
     }
 
-    public void inputTransaksi() {
-    Scanner input = new Scanner(System.in);
+    public void tampilTransaksi() {
+        System.out.println("=== TRANSAKSI #" + transaksi_id + " ===");
+        double grandTotal = 0;
 
-    System.out.println("=== INPUT TRANSAKSI ===");
-
-    System.out.print("Masukkan ID Produk   : ");
-    int idProduk = input.nextInt();
-
-    Product produkDipilih = null;
-
-    // Cari produk
-    for (Product p : Main.daftarProduct) {
-        if (p.getId_product() == idProduk) {
-            produkDipilih = p;
-            break;
+        for (DetailTransaksi dt : dTransaksi) {
+            dt.showDetailTransaksi();
+            grandTotal += dt.getTotal();
         }
+
+        System.out.println("Grand Total : " + grandTotal);
     }
-
-    if (produkDipilih == null) {
-        System.out.println("Produk tidak ditemukan!");
-        return;
-    }
-
-    System.out.println("Nama Produk : " + produkDipilih.getNama());
-    System.out.println("Harga       : " + produkDipilih.getHarga());
-    System.out.println("Stok        : " + produkDipilih.getStok());
-
-    System.out.print("Masukkan Jumlah Beli : ");
-    int jumlah = input.nextInt();
-
-    if (jumlah > produkDipilih.getStok()) {
-        System.out.println("Stok tidak mencukupi!");
-        return;
-    }
-
-    // Kurangi stok
-    produkDipilih.setStok(produkDipilih.getStok() - jumlah);
-
-    // Buat objek transaksi baru
-    Transaksi transaksiBaru = new Transaksi(Main.daftarProduct.size() + 1, produkDipilih, super.getKasir(), jumlah, Main.daftarTransaksi.size() + 1000);
-
-    Main.daftarTransaksi.add(transaksiBaru);
-
-    System.out.println("Transaksi berhasil!");
-    transaksiBaru.showDetailTransaksi();
-}
 }

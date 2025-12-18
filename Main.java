@@ -4,21 +4,42 @@ import java.util.Scanner;
 public class Main {
     public static ArrayList<Product> daftarProduct = new ArrayList<>();
     public static ArrayList<Transaksi> daftarTransaksi = new ArrayList<>();
+    public static ArrayList<User> daftarUser = new ArrayList<>();
 
     public static void main(String[] args) {
-        // daftarProduct.add(new Product(101, "Kemeja", "L", "Hitam", 100000, 10));
+        daftarUser.add(new Admin(1, "Admin Utama", "admin", "admin123", "ADM01"));
+        daftarUser.add(new Kasir(2, "Budi", "kasir", "kasir123", "KSR01"));
 
-        // Kasir kasir1 = new Kasir(1, "Budi", "Bud", "123", 101);
+        Scanner input = new Scanner(System.in);
+        int pilihan;
+        do {
+            System.out.println("\n === MENU AWAL ===");
+            System.out.println("1. Login");
+            System.out.println("2. Keluar");
 
-        // Product p1 = new Product(1, "Kaos", "M", "Hitam", 50000, 10);
-        // Main.daftarProduct.add(p1);
+            System.out.println("Pilih Menu: ");
+            pilihan = input.nextInt();
+            switch (pilihan) {
+                case 1:
+                    User user = login();
 
-        // Transaksi transaksi = new Transaksi(0, null, kasir1, 0, 0);
-        // transaksi.inputTransaksi();
-        menuUtama();
+                    if (user != null) {
+                        menuUtama(user);
+                    }
+                    break;
+                case 2:
+                    System.out.println("Terima Kasir!");
+                    break;
+                default:
+                    System.out.println("Menu tidak valid!");
+                    break;
+            }
+        } while (pilihan != 2);
+        
     }
 
-    public static void menuUtama() {
+    public static void menuUtama(User user) {
+        Product p = new Product(0, null, null, null, 0, 0);
         Scanner input = new Scanner(System.in);
         int pilihan;
 
@@ -26,7 +47,14 @@ public class Main {
             System.out.println("\n=== MENU UTAMA ===");
             System.out.println("1. Tampilkan Produk");
             System.out.println("2. Input Transaksi");
-            System.out.println("0. Keluar");
+
+            if (user.getRole() == User.Role.ADMIN) {
+                System.out.println("3. Input Produk");
+                System.out.println("4. Update Produk");
+                System.out.println("5. Hapus Produk");
+            }
+
+            System.out.println("0. Logout");
             System.out.print("Pilih menu: ");
             pilihan = input.nextInt();
 
@@ -36,13 +64,98 @@ public class Main {
                     break;
 
                 case 2:
-                    Kasir kasirAktif = new Kasir(1, "Budi", "Bud", "123", 101);
-                    Transaksi transaksi = new Transaksi(0, null, kasirAktif, 0, 0);
-                    transaksi.inputTransaksi();
+                    if (user instanceof Kasir) {
+                        Transaksi t = new Transaksi(
+                                Main.daftarTransaksi.size() + 1,
+                                (Kasir) user);
+                        t.tambahItem();
+
+                        Main.daftarTransaksi.add(t);
+                        t.tampilTransaksi();
+                    } else {
+                        System.out.println("Menu transaksi hanya untuk kasir!");
+                    }
+                    break;
+
+                case 3:
+                    if (user instanceof Admin) {
+                        input = new Scanner(System.in);
+
+                        System.out.println("=== INPUT PRODUCT ===");
+
+                        System.out.print("ID Product : ");
+                        int id = input.nextInt();
+                        input.nextLine();
+
+                        System.out.print("Nama       : ");
+                        String nama = input.nextLine();
+
+                        System.out.print("Ukuran     : ");
+                        String ukuran = input.nextLine();
+
+                        System.out.print("Warna      : ");
+                        String warna = input.nextLine();
+
+                        System.out.print("Harga      : ");
+                        double harga = input.nextFloat();
+
+                        System.out.print("Stok       : ");
+                        int stok = input.nextInt();
+
+                        p = new Product(id, nama, ukuran, warna, harga, stok);
+                        p.tambah(p);
+                        ((Admin) user).tambah(p);
+                    } else {
+                        System.out.println("Akses ditolak!");
+                    }
+                    break;
+
+                case 4:
+                    if (user instanceof Admin) {
+                        Scanner in = new Scanner(System.in);
+
+                        System.out.print("ID Produk yang diupdate : ");
+                        int id = in.nextInt();
+                        in.nextLine();
+
+                        System.out.print("Nama baru   : ");
+                        String nama = in.nextLine();
+
+                        System.out.print("Ukuran baru : ");
+                        String ukuran = in.nextLine();
+
+                        System.out.print("Warna baru  : ");
+                        String warna = in.nextLine();
+
+                        System.out.print("Harga baru  : ");
+                        float harga = in.nextFloat();
+
+                        System.out.print("Stok baru   : ");
+                        int stok = in.nextInt();
+
+                        p.update(id, nama, ukuran, warna, harga, stok);
+                        ((Admin) user).update(id, nama, ukuran, warna, harga, stok);
+                    } else {
+                        System.out.println("Akses ditolak! Admin only.");
+                    }
+                    break;
+
+                case 5:
+                    if (user instanceof Admin) {
+                        Scanner in = new Scanner(System.in);
+
+                        System.out.print("ID Produk yang dihapus : ");
+                        int id = in.nextInt();
+
+                        p.hapus(id);
+                        ((Admin) user).hapus(id);
+                    } else {
+                        System.out.println("Akses ditolak! Admin only.");
+                    }
                     break;
 
                 case 0:
-                    System.out.println("Terima kasih!");
+                    System.out.println("Logout...");
                     break;
 
                 default:
@@ -50,4 +163,26 @@ public class Main {
             }
         } while (pilihan != 0);
     }
+
+    public static User login() {
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("=== LOGIN ===");
+        System.out.print("Username : ");
+        String username = input.nextLine();
+
+        System.out.print("Password : ");
+        String password = input.nextLine();
+
+        for (User u : daftarUser) {
+            if (u.login(username, password)) {
+                System.out.println("Login berhasil sebagai " + u.getRole());
+                return u;
+            }
+        }
+
+        System.out.println("Login gagal!");
+        return null;
+    }
+
 }

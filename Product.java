@@ -5,10 +5,10 @@ public class Product implements CRUD {
     private String nama;
     private String ukuran;
     private String warna;
-    private float harga;
+    private double harga;
     private int stok;
 
-    public Product(int id_product, String nama, String ukuran, String warna, float harga, int stok) {
+    public Product(int id_product, String nama, String ukuran, String warna, double harga, int stok) {
         this.id_product = id_product;
         this.nama = nama;
         this.ukuran = ukuran;
@@ -49,11 +49,11 @@ public class Product implements CRUD {
         this.warna = warna;
     }
 
-    public float getHarga() {
+    public double getHarga() {
         return harga;
     }
 
-    public void setHarga(float harga) {
+    public void setHarga(double harga) {
         this.harga = harga;
     }
 
@@ -73,7 +73,6 @@ public class Product implements CRUD {
 
     @Override
     public void tambah(Product newProduct) {
-
         Main.daftarProduct.add(newProduct);
         System.out.println("Product berhasil di tambahkan");
     }
