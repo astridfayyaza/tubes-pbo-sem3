@@ -6,14 +6,14 @@ public class Transaksi {
     private int transaksi_id;
     private LocalDate tanggal;
     private LocalTime waktu;
-    private float totalHarga;
+    private double total;
     private DetailTransaksi dTransaksi;
 
-    public Transaksi(int transaksi_id, LocalDate tanggal, LocalTime waktu, float totalHarga) {
+    public Transaksi(int transaksi_id, LocalDate tanggal, LocalTime waktu, double total) {
         this.transaksi_id = transaksi_id;
         this.tanggal = tanggal;
         this.waktu = waktu;
-        this.totalHarga = totalHarga;
+        this.total = total;
     }
 
     public int getTransaksi_id() {
@@ -40,12 +40,12 @@ public class Transaksi {
         this.waktu = waktu;
     }
 
-    public float getTotalHarga() {
-        return totalHarga;
+    public double gettotal() {
+        return total;
     }
 
-    public void setTotalHarga(float totalHarga) {
-        this.totalHarga = totalHarga;
+    public void settotal(double total) {
+        this.total = total;
     }
 
     public void cariTransaksi() {
