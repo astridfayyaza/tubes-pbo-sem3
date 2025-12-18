@@ -1,4 +1,4 @@
-public abstract class User implements CRUD {
+public abstract class User {
 
     protected int user_id;
     protected String nama;
@@ -8,7 +8,8 @@ public abstract class User implements CRUD {
     public enum Role { ADMIN, KASIR }
     protected Role role;
 
-    public User(int user_id, String nama, String username, String password, Role role) {
+    public User(int user_id, String nama, String username,
+                String password, Role role) {
         this.user_id = user_id;
         this.nama = nama;
         this.username = username;
@@ -16,28 +17,17 @@ public abstract class User implements CRUD {
         this.role = role;
     }
 
+    // PENGECEKAN USERNAME & PASSWORD (WAJIB)
+    public boolean login(String inputUsername, String inputPassword) {
+        return this.username.equals(inputUsername)
+            && this.password.equals(inputPassword);
+    }
+
     public String getNama() {
         return nama;
     }
 
-    public String getUsername() {
-        return username;
+    public Role getRole() {
+        return role;
     }
-
-    @Override
-    public void tambah(Product newProduct) {
-        System.out.println("Data ditambahkan oleh " + username);
-    }
-
-    @Override
-    public void update(String nama, String ukuran, String warna, float harga, int stok) {
-        System.out.println("Data diperbarui oleh " + username);
-    }
-
-    @Override
-    public void hapus(int id_product) {
-        System.out.println("Data dihapus oleh " + username);
-    }
-
-    public abstract boolean login(String inputUsername, String inputPassword);
 }
