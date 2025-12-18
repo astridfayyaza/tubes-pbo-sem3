@@ -5,12 +5,12 @@ public class DetailTransaksi {
     private int userId;
     
     private String namaBarang;
-    private double harga; // Menggunakan double untuk decimal
+    private double harga; // double untuk decimal
     private int jumlah;
     private double total;
 
-    // Relasi Objek sesuai diagram
-    private Product product;
+    // fungsi turunan dari Product dan Kasir
+    private Product product; 
     private Kasir kasir;
 
     public DetailTransaksi(int detailId, int transaksiId, Product product, Kasir kasir, int jumlah) {
@@ -20,7 +20,7 @@ public class DetailTransaksi {
         this.kasir = kasir;
         this.jumlah = jumlah;
         
-        // Otomatis mengambil data dari objek Product
+        // otomatis mengisi fields lain berdasarkan objek terkait
         if (product != null) {
             this.produkId = product.getId_product();
             this.namaBarang = product.getNama();
@@ -45,7 +45,7 @@ public class DetailTransaksi {
     }
 
     public void inputBarang() {
-        // Logika untuk menambah barang ke detail transaksi
+        // logic untuk menambah barang ke file ini
         System.out.println("Barang " + namaBarang + " berhasil diinput.");
     }
 }

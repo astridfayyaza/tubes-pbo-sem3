@@ -1,14 +1,14 @@
 import java.time.LocalDate;
 
 public class RiwayatStok {
-    private int riwayatStokId; // Primary Key
-    private int produkId;      // Foreign Key
-    private Product product;   // Referensi objek Product
+    private int riwayatStokId; // PK
+    private int produkId;      // FK
+    private Product product;   
     private int jumlah;
     private String tipePerubahan;
     private LocalDate tglPerubahan;
 
-    // Konstruktor
+    // konstruktor
     public RiwayatStok(int riwayatStokId, Product product, int jumlah, String tipePerubahan, LocalDate tglPerubahan) {
         this.riwayatStokId = riwayatStokId;
         this.product = product;
@@ -28,7 +28,5 @@ public class RiwayatStok {
         System.out.println("Jumlah Perubahan : " + jumlah);
         System.out.println("Tipe Perubahan   : " + tipePerubahan);
         System.out.println("Tanggal          : " + tglPerubahan);
-    }
-
-    // Getter dan Setter bisa ditambahkan di bawah sini
+    }  
 }
