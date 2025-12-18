@@ -72,8 +72,7 @@ public class Product implements CRUD{
     }
 
     @Override
-    public void tambah(int id_product, String nama, String ukuran, String warna, float harga, int stok) {
-        Product newProduct = new Product(id_product, nama, ukuran, warna, harga, stok);
+    public void tambah(Product newProduct) {
 
         System.out.println("Product berhasil di tambahkan");
     }
@@ -114,9 +113,9 @@ public class Product implements CRUD{
         }
     }
 
-    if (!ditemukan) {
-        System.out.println("Product dengan ID " + id_product + " tidak ditemukan");
-    }
+        if (!ditemukan) {
+            System.out.println("Product dengan ID " + id_product + " tidak ditemukan");
+        }
     }
 
     

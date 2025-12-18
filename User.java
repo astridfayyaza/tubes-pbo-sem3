@@ -25,7 +25,7 @@ public abstract class User implements CRUD {
     }
 
     @Override
-    public void tambah(int id_product, String nama, String ukuran, String warna, float harga, int stok) {
+    public void tambah(Product newProduct) {
         System.out.println("Data ditambahkan oleh " + username);
     }
 

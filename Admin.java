@@ -32,7 +32,7 @@ public class Admin extends User {
     }
 
     @Override
-    public void tambah(int id_product, String nama, String ukuran, String warna, float harga, int stok) {
+    public void tambah(Product newProduct) {
         System.out.println("Admin menambahkan produk: " + nama);
     }
 
