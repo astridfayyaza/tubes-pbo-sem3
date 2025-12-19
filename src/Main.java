@@ -29,7 +29,7 @@ public class Main {
                     }
                     break;
                 case 2:
-                    System.out.println("Terima Kasir!");
+                    System.out.println("Terima Kasih!");
                     break;
                 default:
                     System.out.println("Menu tidak valid!");
