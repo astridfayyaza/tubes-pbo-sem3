@@ -13,7 +13,7 @@ public class RiwayatStok {
     public RiwayatStok(int riwayatStokId, Product product, int jumlah, String tipePerubahan, LocalDate tglPerubahan) {
         this.riwayatStokId = riwayatStokId;
         this.product = product;
-        this.produkId = (product != null) ? product.getId_product() : 0;
+        this.produkId = (product != null) ? product.getId_product() : 0; 
         this.jumlah = jumlah;
         this.tipePerubahan = tipePerubahan;
         this.tglPerubahan = tglPerubahan;
