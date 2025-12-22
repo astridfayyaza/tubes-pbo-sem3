@@ -3,13 +3,16 @@ public class Kasir extends User {
 
     private String kasirCode;
 
-    public Kasir(int user_id, String nama, String username, String password, String kasirCode) {
+    public Kasir(int user_id, String nama, String username, String password) {
         super(user_id, nama, username, password, Role.KASIR);
-        this.kasirCode = kasirCode;
     }
 
     public String getKasirCode() {
         return kasirCode;
+    }
+
+    public int getuserId() {
+        return user_id;
     }
 
     public void viewProfile() {
@@ -19,9 +22,5 @@ public class Kasir extends User {
         System.out.println("Nama       : " + nama);
         System.out.println("Username   : " + username);
         System.out.println("Role       : " + role);
-    }
-
-    public void buatTransaksi() {
-        System.out.println("Kasir membuat transaksi");
     }
 }

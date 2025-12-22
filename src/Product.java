@@ -1,10 +1,13 @@
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Product implements CRUD {
+public class Product {
     private int id_product;
     private RiwayatStok riwayatStok;
     private DetailTransaksi dTransaksi;
@@ -71,57 +74,38 @@ public class Product implements CRUD {
         this.stok = stok;
     }
 
-    public int updateStok(int updateStok) {
-        this.stok = updateStok;
+    public void updateStok(int produk_id, int stok) {
 
-        return this.stok;
-    }
+        Product p = new Product(produk_id, "", "", "", 0, stok);
 
-    @Override
-    public void tambah(Product newProduct) {
-        Main.daftarProduct.add(newProduct);
-        System.out.println("Product berhasil di tambahkan");
-    }
-
-    @Override
-    public void update(int id, String nama, String ukuran, String warna, float harga, int stok) {
-        boolean ditemukan = false;
-
-        for (Product p : Main.daftarProduct) {
-            if (p.getId_product() == id) {
-                p.setNama(nama);
-                p.setUkuran(ukuran);
-                p.setWarna(warna);
-                p.setHarga(harga);
-                p.setStok(stok);
-
-                ditemukan = true;
-                System.out.println("Product berhasil diupdate");
-                break;
-            }
+        if (Product.getById(produk_id) == null) {
+            System.out.println("Produk tidak ditemukan!");
+            return;
         }
 
-        if (!ditemukan) {
-            System.out.println("Product dengan ID " + id + " tidak ditemukan");
-        }
-    }
+        String sql = "UPDATE produk SET stok=stok+? WHERE produk_id=?";
+        String sqlRiwayat = "INSERT INTO riwayat_stok (produk_id, jumlah, tipe_perubahan, tgl_perubahan) VALUES (?, ?, ?, ?)";
 
-    @Override
-    public void hapus(int id_product) {
-        boolean ditemukan = false;
+        try (Connection c = Koneksi.getConnection();
+                PreparedStatement ps = c.prepareStatement(sql);
+                PreparedStatement ps2 = c.prepareStatement(sqlRiwayat)) {
 
-        for (int i = 0; i < Main.daftarProduct.size(); i++) {
-            if (Main.daftarProduct.get(i).getId_product() == id_product) {
-                Main.daftarProduct.remove(i);
-                ditemukan = true;
-                System.out.println("Product berhasil dihapus");
-                break;
-            }
+            ps.setInt(1, p.getStok());
+            ps.setInt(2, p.getId_product());
+
+            ps2.setInt(1, p.getId_product());
+            ps2.setInt(2, p.getStok());
+            ps2.setString(3, "Masuk");
+            ps2.setDate(4, Date.valueOf(LocalDate.now()));
+
+            ps.executeUpdate();
+            ps2.executeUpdate();
+            System.out.println("stok diupdate");
+
+        } catch (Exception e) {
+            System.out.println("Eksepsi: " + e.getMessage());
         }
 
-        if (!ditemukan) {
-            System.out.println("Product dengan ID " + id_product + " tidak ditemukan");
-        }
     }
 
     public static void tampilProduk() {
@@ -163,6 +147,32 @@ public class Product implements CRUD {
                             p.getHarga() + "\t" +
                             p.getStok());
         }
+    }
+
+    public static Product getById(int idProduk) {
+        String sql = "SELECT * FROM produk WHERE produk_id = ?";
+
+        try (Connection c = Koneksi.getConnection();
+                PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, idProduk);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new Product(
+                        rs.getInt("produk_id"),
+                        rs.getString("nama"),
+                        rs.getString("ukuran"),
+                        rs.getString("warna"),
+                        rs.getDouble("harga"),
+                        rs.getInt("stok"));
+            }
+
+        } catch (Exception e) {
+            System.out.println("Gagal ambil produk: " + e.getMessage());
+        }
+
+        return null;
     }
 
 }

@@ -8,9 +8,7 @@ public class Main {
     public static ArrayList<User> daftarUser = new ArrayList<>();
 
     public static void main(String[] args) {
-        daftarUser.add(new Admin(1, "Admin Utama", "admin", "admin123", "ADM01"));
-        daftarUser.add(new Kasir(2, "Budi", "kasir", "kasir123", "KSR01"));
-
+        
         Scanner input = new Scanner(System.in);
         int pilihan;
         do {
@@ -53,6 +51,7 @@ public class Main {
                 System.out.println("3. Input Produk");
                 System.out.println("4. Update Produk");
                 System.out.println("5. Hapus Produk");
+                System.out.println("6. Update Stok");
             }
 
             System.out.println("0. Logout");
@@ -104,7 +103,6 @@ public class Main {
                         int stok = input.nextInt();
 
                         p = new Product(id, nama, ukuran, warna, harga, stok);
-                        p.tambah(p);
                         ((Admin) user).tambah(p);
                     } else {
                         System.out.println("Akses ditolak!");
@@ -134,7 +132,6 @@ public class Main {
                         System.out.print("Stok baru   : ");
                         int stok = in.nextInt();
 
-                        p.update(id, nama, ukuran, warna, harga, stok);
                         ((Admin) user).update(id, nama, ukuran, warna, harga, stok);
                     } else {
                         System.out.println("Akses ditolak! Admin only.");
@@ -148,8 +145,23 @@ public class Main {
                         System.out.print("ID Produk yang dihapus : ");
                         int id = in.nextInt();
 
-                        p.hapus(id);
                         ((Admin) user).hapus(id);
+                    } else {
+                        System.out.println("Akses ditolak! Admin only.");
+                    }
+                    break;
+                case 6:
+                    if (user instanceof Admin) {
+                        Scanner in = new Scanner(System.in);
+
+                        System.out.print("ID Produk yang diupdate : ");
+                        int id = in.nextInt();
+                        in.nextLine();
+
+                        System.out.print("Stok baru   : ");
+                        int stok = in.nextInt();
+
+                        p.updateStok(id, stok);
                     } else {
                         System.out.println("Akses ditolak! Admin only.");
                     }
@@ -175,15 +187,15 @@ public class Main {
         System.out.print("Password : ");
         String password = input.nextLine();
 
-        for (User u : daftarUser) {
-            if (u.login(username, password)) {
-                System.out.println("Login berhasil sebagai " + u.getRole());
-                return u;
-            }
-        }
+        User user = User.login(username, password);
 
-        System.out.println("Login gagal!");
-        return null;
+        if (user != null) {
+            System.out.println("Login berhasil sebagai " + user.getRole());
+            return user;
+        } else {
+            System.out.println("Login gagal!");
+            return null;
+        }
     }
 
 }

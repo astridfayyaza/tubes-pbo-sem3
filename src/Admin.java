@@ -6,9 +6,8 @@ public class Admin extends User implements CRUD {
     private String adminCode;
 
     public Admin(int user_id, String nama, String username,
-            String password, String adminCode) {
+            String password) {
         super(user_id, nama, username, password, Role.ADMIN);
-        this.adminCode = adminCode;
     }
 
     public void viewProfile() {
@@ -46,7 +45,7 @@ public class Admin extends User implements CRUD {
     public void update(int produk_id, String nama, String ukuran, String warna, float harga, int stok) {
         Product p = new Product(produk_id, nama, ukuran, warna, harga, stok);
         String sql = "UPDATE produk SET nama=?, ukuran=?, warna=?, harga=?, stok=? WHERE produk_id=?";
-
+        
         try (Connection c = Koneksi.getConnection();
                 PreparedStatement ps = c.prepareStatement(sql)) {
 

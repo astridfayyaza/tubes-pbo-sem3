@@ -1,10 +1,12 @@
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Scanner;
 
 public class DetailTransaksi {
     private int detailId;
+    private int transaksiId;
     private int produkId;
-    private String userId;
+    private int userId;
 
     private String namaBarang;
     private double harga; // double untuk decimal
@@ -30,7 +32,7 @@ public class DetailTransaksi {
         }
 
         if (kasir != null) {
-            this.userId = kasir.getKasirCode(); // mendapatkan userId dari objek Kasir
+            this.userId = kasir.getuserId(); // mendapatkan userId dari objek Kasir
         }
     }
 
@@ -49,24 +51,16 @@ public class DetailTransaksi {
         }
     }
 
-    public void inputBarang() {
+    public void inputBarang(int transaksiId) {
         Scanner input = new Scanner(System.in);
 
         System.out.println("=== INPUT BARANG TRANSAKSI ===");
-
         Product.tampilProduk();
 
         System.out.print("Pilih ID Produk : ");
         int idProduk = input.nextInt();
 
-        Product produkDipilih = null;
-        for (Product p : Main.daftarProduct) {
-            if (p.getId_product() == idProduk) {
-                produkDipilih = p;
-                break;
-            }
-        }
-
+        Product produkDipilih = Product.getById(idProduk);
         if (produkDipilih == null) {
             System.out.println("Produk tidak ditemukan!");
             return;
@@ -81,17 +75,58 @@ public class DetailTransaksi {
         }
 
         // set data detail transaksi
-        this.product = produkDipilih;
-        this.jumlah = jumlah;
+        this.transaksiId = transaksiId;
         this.produkId = produkDipilih.getId_product();
+        this.userId = kasir.getuserId(); // INT
         this.namaBarang = produkDipilih.getNama();
         this.harga = produkDipilih.getHarga();
+        this.jumlah = jumlah;
         this.total = harga * jumlah;
 
-        // update stok
-        produkDipilih.setStok(produkDipilih.getStok() - jumlah);
+        // SIMPAN KE DATABASE
+        String sql = "INSERT INTO detail_transaksi "
+                + "(transaksi_id, produk_id, user_id, nama_barang, harga, jumlah, total) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        System.out.println("Barang berhasil ditambahkan ke transaksi!");
+        try (Connection c = Koneksi.getConnection();
+                PreparedStatement ps = c.prepareStatement(sql)) {
+
+            System.out.println("DEBUG: Mencoba insert detail dengan Transaksi ID: " + this.transaksiId);
+
+            ps.setInt(1, this.transaksiId);
+            ps.setInt(2, this.produkId);
+            ps.setInt(3, this.userId);
+            ps.setString(4, this.namaBarang);
+            ps.setDouble(5, this.harga);
+            ps.setInt(6, this.jumlah);
+            ps.setDouble(7, this.total);
+
+            ps.executeUpdate();
+            System.out.println("Detail transaksi berhasil disimpan ke database");
+
+        } catch (Exception e) {
+            System.out.println("Gagal simpan detail transaksi: " + e.getMessage());
+        }
+
+        // UPDATE STOK DATABASE
+        String sqlRS = "UPDATE produk SET stok = stok - ? WHERE produk_id = ? AND stok >= ?";
+
+        // Bagian Update Stok yang benar:
+        try (Connection c = Koneksi.getConnection();
+                PreparedStatement ps = c.prepareStatement(sqlRS)) {
+
+            ps.setInt(1, jumlah);
+            ps.setInt(2, produkId);
+            ps.setInt(3, jumlah);
+
+            int barisTerupdate = ps.executeUpdate(); // Simpan ke variabel, JANGAN panggil lagi di IF
+
+            if (barisTerupdate == 0) {
+                System.out.println("Gagal update stok (stok tidak cukup)");
+            }
+        } catch (Exception e) {
+            System.out.println("Gagal update stok: " + e.getMessage());
+        }
+
     }
-
 }
