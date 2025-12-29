@@ -87,19 +87,19 @@ public class Main {
                         int id = input.nextInt();
                         input.nextLine();
 
-                        System.out.print("Nama       : ");
+                        System.out.print("Nama Pakaian : ");
                         String nama = input.nextLine();
 
-                        System.out.print("Ukuran     : ");
+                        System.out.print("Ukuran       : ");
                         String ukuran = input.nextLine();
 
-                        System.out.print("Warna      : ");
+                        System.out.print("Warna        : ");
                         String warna = input.nextLine();
 
-                        System.out.print("Harga      : ");
+                        System.out.print("Harga        : ");
                         double harga = input.nextFloat();
 
-                        System.out.print("Stok       : ");
+                        System.out.print("Stok         : ");
                         int stok = input.nextInt();
 
                         p = new Product(id, nama, ukuran, warna, harga, stok);
