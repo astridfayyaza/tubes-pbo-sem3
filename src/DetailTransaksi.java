@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class DetailTransaksi {
@@ -51,6 +52,39 @@ public class DetailTransaksi {
         }
     }
 
+    public void showDetailTransaksiByUser(String nama) {
+
+        String sql = "SELECT d.detail_id, d.jumlah, d.total, p.nama AS nama_barang, p.harga, u.nama AS nama_kasir FROM detail_transaksi d JOIN produk p ON d.produk_id = p.produk_id JOIN user u ON d.user_id = u.user_id WHERE u.nama = ? ORDER BY d.detail_id DESC";
+
+        try (Connection c = Koneksi.getConnection();
+                PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setString(1, nama);
+            ResultSet rs = ps.executeQuery();
+
+            System.out.println("=== DETAIL TRANSAKSI KASIR ===");
+            boolean adaData = false;
+
+            while (rs.next()) {
+                adaData = true;
+
+                System.out.println("------------------------------");
+                System.out.println("Barang : " + rs.getString("nama_barang"));
+                System.out.println("Harga  : " + rs.getDouble("harga"));
+                System.out.println("Jumlah : " + rs.getInt("jumlah"));
+                System.out.println("Total  : " + rs.getDouble("total"));
+                System.out.println("Kasir  : " + rs.getString("nama_kasir"));
+            }
+
+            if (!adaData) {
+                System.out.println("Belum ada transaksi untuk user ini.");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Gagal menampilkan detail transaksi: " + e.getMessage());
+        }
+    }
+
     public void inputBarang(int transaksiId) {
         Scanner input = new Scanner(System.in);
 
@@ -89,7 +123,7 @@ public class DetailTransaksi {
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection c = Koneksi.getConnection();
-                PreparedStatement ps = c.prepareStatement(sql)) {   
+                PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setInt(1, this.transaksiId);
             ps.setInt(2, this.produkId);

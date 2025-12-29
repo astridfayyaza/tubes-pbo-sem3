@@ -8,7 +8,7 @@ public class Main {
     public static ArrayList<User> daftarUser = new ArrayList<>();
 
     public static void main(String[] args) {
-        
+
         Scanner input = new Scanner(System.in);
         int pilihan;
         do {
@@ -52,7 +52,9 @@ public class Main {
                 System.out.println("4. Update Produk");
                 System.out.println("5. Hapus Produk");
                 System.out.println("6. Update Stok");
+                System.out.println("7. Cek Detail Transaksi(By User)");
             }
+            System.out.println("8. Menampilkan Riwayat Stok");
 
             System.out.println("0. Logout");
             System.out.print("Pilih menu: ");
@@ -166,7 +168,22 @@ public class Main {
                         System.out.println("Akses ditolak! Admin only.");
                     }
                     break;
+                case 7:
+                    if (user instanceof Admin) {
+                        Scanner in = new Scanner(System.in);
 
+                        System.out.print("Masukkan Nama User :");
+                        String nama = in.nextLine();
+                        DetailTransaksi dt = new DetailTransaksi(0, null, null, 0);
+                        dt.showDetailTransaksiByUser(nama);
+                    } else {
+                        System.out.println("Menu ini hanya untuk Admin!");
+                    }
+                    break;
+                case 8:
+                    RiwayatStok riwayatStok = new RiwayatStok(0, null, 0, null, null);
+                    riwayatStok.showRiwayatStok();
+                    break;
                 case 0:
                     System.out.println("Logout...");
                     break;
