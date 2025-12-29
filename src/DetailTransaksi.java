@@ -89,9 +89,7 @@ public class DetailTransaksi {
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection c = Koneksi.getConnection();
-                PreparedStatement ps = c.prepareStatement(sql)) {
-
-            System.out.println("DEBUG: Mencoba insert detail dengan Transaksi ID: " + this.transaksiId);
+                PreparedStatement ps = c.prepareStatement(sql)) {   
 
             ps.setInt(1, this.transaksiId);
             ps.setInt(2, this.produkId);

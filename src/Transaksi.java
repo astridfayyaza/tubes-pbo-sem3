@@ -44,6 +44,10 @@ public class Transaksi {
     public void setWaktu(LocalTime waktu) {
         this.waktu = waktu;
     }
+
+    public int getKasirCode() {
+        return kasir.getuserId();
+    }
     
     public void tambahItem() {
             simpanTransaksi();
@@ -81,7 +85,7 @@ public class Transaksi {
             }
         } catch (Exception e) {
             System.out.println("Gagal simpan transaksi: " + e.getMessage());
-            this.transaksi_id = 0; // Reset jika gagal
+            this.transaksi_id = 0;
         }
     }
 
