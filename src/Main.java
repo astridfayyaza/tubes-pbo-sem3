@@ -172,10 +172,10 @@ public class Main {
                     if (user instanceof Admin) {
                         Scanner in = new Scanner(System.in);
 
-                        System.out.print("Masukkan Nama User :");
+                        System.out.print("Masukkan Nama Kasir :");
                         String nama = in.nextLine();
                         DetailTransaksi dt = new DetailTransaksi(0, null, null, 0);
-                        dt.showDetailTransaksiByUser(nama);
+                        dt.showDetailTransaksi(nama);
                     } else {
                         System.out.println("Menu ini hanya untuk Admin!");
                     }
@@ -183,7 +183,7 @@ public class Main {
                 case 8:
                     RiwayatStok riwayatStok = new RiwayatStok(0, null, 0, null, null);
                     riwayatStok.showRiwayatStok();
-                    break;
+                    break; 
                 case 0:
                     System.out.println("Logout...");
                     break;

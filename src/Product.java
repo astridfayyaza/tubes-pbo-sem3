@@ -131,7 +131,7 @@ public class Product {
         }
 
         System.out.println("=== DAFTAR PRODUK ===");
-        System.out.println("ID\tNama\tUkuran\tWarna\tHarga\tStok");
+        System.out.println("ID\tNama\t\tUkuran\tWarna\tHarga\t\tStok");
 
         if (list.isEmpty()) {
             System.out.println("Belum ada produk.");

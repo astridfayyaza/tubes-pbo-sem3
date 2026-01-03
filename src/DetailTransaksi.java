@@ -52,7 +52,7 @@ public class DetailTransaksi {
         }
     }
 
-    public void showDetailTransaksiByUser(String nama) {
+    public void showDetailTransaksi(String nama) {
 
         String sql = "SELECT d.detail_id, d.jumlah, d.total, p.nama AS nama_barang, p.harga, u.nama AS nama_kasir FROM detail_transaksi d JOIN produk p ON d.produk_id = p.produk_id JOIN user u ON d.user_id = u.user_id WHERE u.nama = ? ORDER BY d.detail_id DESC";
 
@@ -63,7 +63,7 @@ public class DetailTransaksi {
             ResultSet rs = ps.executeQuery();
 
             System.out.println("=== DETAIL TRANSAKSI KASIR ===");
-            boolean adaData = false;
+            boolean adaData = false; //untuk mengecek ada data atau tidak
 
             while (rs.next()) {
                 adaData = true;
@@ -88,7 +88,7 @@ public class DetailTransaksi {
     public void inputBarang(int transaksiId) {
         Scanner input = new Scanner(System.in);
 
-        System.out.println("=== INPUT BARANG TRANSAKSI ===");
+        System.out.println("=== INPUT BARANG TRANSAKSI ==="); // step 1
         Product.tampilProduk();
 
         System.out.print("Pilih ID Produk : ");
@@ -109,7 +109,7 @@ public class DetailTransaksi {
         }
 
         // set data detail transaksi
-        this.transaksiId = transaksiId;
+        this.transaksiId = transaksiId; // step 2
         this.produkId = produkDipilih.getId_product();
         this.userId = kasir.getuserId(); // INT
         this.namaBarang = produkDipilih.getNama();
@@ -118,7 +118,7 @@ public class DetailTransaksi {
         this.total = harga * jumlah;
 
         // SIMPAN KE DATABASE
-        String sql = "INSERT INTO detail_transaksi "
+        String sql = "INSERT INTO detail_transaksi " 
                 + "(transaksi_id, produk_id, user_id, nama_barang, harga, jumlah, total) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -141,10 +141,10 @@ public class DetailTransaksi {
         }
 
         // UPDATE STOK DATABASE
-        String sqlRS = "UPDATE produk SET stok = stok - ? WHERE produk_id = ? AND stok >= ?";
+        String sqlRS = "UPDATE produk SET stok = stok - ? WHERE produk_id = ? AND stok >= ?"; // step 3
 
         // Bagian Update Stok yang benar:
-        try (Connection c = Koneksi.getConnection();
+        try (Connection c = Koneksi.getConnection(); 
                 PreparedStatement ps = c.prepareStatement(sqlRS)) {
 
             ps.setInt(1, jumlah);

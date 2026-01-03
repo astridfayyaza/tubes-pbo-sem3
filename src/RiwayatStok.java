@@ -17,14 +17,14 @@ public class RiwayatStok {
     public RiwayatStok(int riwayatStokId, Product product, int jumlah, String tipePerubahan, LocalDate tglPerubahan) {
         this.riwayatStokId = riwayatStokId;
         this.product = product;
-        this.produkId = (product != null) ? product.getId_product() : 0;
+        this.produkId = (product != null) ? product.getId_product() : 0; // jelaskan produkId dari objek Product
         this.jumlah = jumlah;
         this.tipePerubahan = tipePerubahan;
         this.tglPerubahan = tglPerubahan;
     }
 
     public void showRiwayatStok() {
-        ArrayList<RiwayatStok> riwayatStok = new ArrayList<>();
+        ArrayList<RiwayatStok> riwayatStok = new ArrayList<>(); // menyimpan riwayat stok
         String sql = "SELECT r.riwayat_stok_id, r.produk_id, r.jumlah, r.tipe_perubahan, r.tgl_perubahan, p.nama, p.ukuran, p.warna, p.harga, p.stok FROM riwayat_stok r JOIN produk p ON r.produk_id = p.produk_id ORDER BY r.tgl_perubahan DESC";
 
         try (Connection c = Koneksi.getConnection();
@@ -32,25 +32,27 @@ public class RiwayatStok {
                 ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
-                Product product = new Product(
+                Product product = new Product( // step 1
                     rs.getInt("produk_id"),
                     rs.getString("nama"),
                     rs.getString("ukuran"),
                     rs.getString("warna"),
                     rs.getDouble("harga"),
                     rs.getInt("stok")
+                ); 
+
+                RiwayatStok rist = new RiwayatStok( // step 2
+                    rs.getInt("riwayat_stok_id"),
+                    product,
+                    rs.getInt("jumlah"),
+                    rs.getString("tipe_perubahan"),
+                    rs.getDate("tgl_perubahan").toLocalDate()
                 );
 
-                RiwayatStok rist = new RiwayatStok(
-                        rs.getInt("riwayat_stok_id"),
-                        product,
-                        rs.getInt("jumlah"),
-                        rs.getString("tipe_perubahan"),
-                        rs.getDate("tgl_perubahan").toLocalDate());
-                riwayatStok.add(rist);
+                riwayatStok.add(rist); // step 3
             }
-        } catch (Exception e) {
-            System.out.println("Ekspsi: " + e.getMessage());
+        } catch (Exception e) { // kalau ada error hasil di eksepsi
+            System.out.println("Eksepsi: " + e.getMessage());
         }
 
         System.out.println("=== Riwayat Stok ===");
