@@ -15,6 +15,7 @@ public class Kasir extends User {
         return user_id;
     }
 
+    @Override
     public void viewProfile() {
         System.out.println("--- Profil Kasir ---");
         System.out.println("ID Kasir   : " + user_id);

@@ -55,6 +55,7 @@ public class Main {
                 System.out.println("7. Cek Detail Transaksi(By User)");
             }
             System.out.println("8. Menampilkan Riwayat Stok");
+            System.out.println("20. Tampilkan Profile");
 
             System.out.println("0. Logout");
             System.out.print("Pilih menu: ");
@@ -183,6 +184,12 @@ public class Main {
                 case 8:
                     RiwayatStok riwayatStok = new RiwayatStok(0, null, 0, null, null);
                     riwayatStok.showRiwayatStok();
+                    break;
+                case 20:
+                    if (user instanceof Admin) {
+                        ((Admin) user).viewProfile();
+                    } else 
+                        ((Kasir) user).viewProfile();
                     break; 
                 case 0:
                     System.out.println("Logout...");

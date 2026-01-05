@@ -10,6 +10,7 @@ public class Admin extends User implements CRUD {
         super(user_id, nama, username, password, Role.ADMIN);
     }
 
+    @Override
     public void viewProfile() {
         System.out.println("--- Profil Admin ---");
         System.out.println("ID Admin   : " + user_id);

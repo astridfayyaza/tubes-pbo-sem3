@@ -24,6 +24,8 @@ public abstract class User {
         this.role = role;
     }
 
+    public abstract void viewProfile();
+
     // PENGECEKAN USERNAME & PASSWORD (WAJIB)
     public static User login(String username, String password) {
 
